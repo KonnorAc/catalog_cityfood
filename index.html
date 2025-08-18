@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>«CityFoodTrade» — дистрибьютор молочной продукции</title>
+  <meta name="description" content="Оптовая дистрибуция молочной продукции: молоко, йогурт, сыр, масло. Доставка по сети HoReCa и ритейлу.">
+  <meta property="og:title" content="«CityFoodTrade» — дистрибьютор молочной продукции">
+  <meta property="og:description" content="Оптовая дистрибуция молочной продукции с контролем холодовой цепи и точной логистикой.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#2396f3">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232396f3'/%3E%3Cpath d='M18 18h28v28a14 14 0 0 1-28 0V18z' fill='%23fff'/%3E%3Ccircle cx='32' cy='36' r='6' fill='%232396f3'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --brand:#2396f3;
+      --brand-600:#1e81d1;
+      --brand-700:#1869a8;
+      --ink:#0f172a;
+      --muted:#5b687a;
+      --bg:#ffffff;
+      --bg-alt:#f5f7fb;
+      --ring: 0 0 0 3px rgba(35,150,243,.35);
+      color-scheme: light;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Noto Sans',sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:var(--brand);text-decoration:none}
+    a:hover{color:var(--brand-600)}
+    img{max-width:100%;display:block}
+
+    /* Layout */
+    .container{width:min(1120px, 100% - 32px); margin-inline:auto}
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.9); backdrop-filter:saturate(180%) blur(12px);
+      border-bottom:1px solid #e9eef6;
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px; color:var(--ink)
+    }
+    .brand-logo{
+      width:36px;height:43pip install fastapipx; border-radius:10px; background:var(--brand);
+      display:grid; place-items:center; color:#fff; font-weight:900
+    }
+    .menu{display:flex; gap:18px; align-items:center}
+    .menu a{color:var(--ink); font-weight:600}
+    .menu a[aria-current="page"]{color:var(--brand)}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--brand); color:#fff; font-weight:700; padding:10px 16px; border-radius:10px;
+      border:1px solid var(--brand-600);
+      transition:.2s transform ease, .2s background ease
+    }
+    .cta:hover{background:var(--brand-600); transform:translateY(-1px)}
+    .cta:focus-visible{outline:none; box-shadow:var(--ring)}
+    .menu-toggle{display:none; background:transparent; border:0; padding:8px}
+    .menu-toggle:focus-visible{outline:none; box-shadow:var(--ring); border-radius:8px}
+
+    /* Hero */
+    .hero{
+      position:relative; overflow:hidden; isolation:isolate;
+      background:
+        radial-gradient(80vw 60vw at 80% -10%, rgba(35,150,243,.15), transparent 60%),
+        linear-gradient(180deg,#fff, #f9fbff 60%, #fff);
+    }
+    .hero-inner{
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:36px; padding:56px 0 40px;
+    }
+    .hero h1{font-size: clamp(28px, 5vw, 44px); line-height:1.15; margin:0 0 12px}
+    .hero p{color:var(--muted); margin:0 0 24px; font-size: clamp(15px, 2.2vw, 18px)}
+    .hero .badges{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+    .badge{
+      border:1px solid #dbe6f5; background:#fff; padding:6px 10px; border-radius:999px; font-weight:700; color:var(--brand)
+    }
+    .illustration{
+      align-self:center; border-radius:18px; background:#fff; border:1px solid #e9eef6; padding:20px;
+      box-shadow:0 10px 30px rgba(35,150,243,.08);
+    }
+
+    /* Sections */
+    section{padding:56px 0}
+    .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px}
+    .section-head h2{margin:0; font-size: clamp(22px, 3.8vw, 32px)}
+    .section-head p{margin:6px 0 0; color:var(--muted)}
+    .grid{display:grid; gap:16px}
+    .grid.cols-3{grid-template-columns: repeat(3,1fr)}
+    .grid.cols-4{grid-template-columns: repeat(4,1fr)}
+    .card{
+      background:#fff; border:1px solid #e9eef6; border-radius:16px; padding:18px;
+      transition:.2s transform ease, .2s box-shadow ease;
+    }
+    .card:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(35,150,243,.10)}
+    .icon{
+      width:42px; height:42px; border-radius:10px; background: #e7f2fe; color:var(--brand);
+      display:grid; place-items:center; font-weight:900; margin-bottom:10px
+    }
+    .kpi{
+      display:flex; gap:10px; align-items:baseline; font-weight:800; color:var(--brand);
+    }
+    .kpi small{color:var(--muted); font-weight:600}
+
+    .strip{background:var(--bg-alt); border-block:1px solid #e9eef6}
+
+    /* Partners row */
+    .partners{display:grid; grid-template-columns: repeat(5,1fr); gap:12px; align-items:center}
+    .partner{
+      background:#fff; border:1px solid #e9eef6; padding:14px; border-radius:12px; text-align:center; color:var(--muted); font-weight:700
+    }
+
+    /* Testimonials */
+    .quote{font-weight:600}
+    .author{display:flex; align-items:center; gap:10px; margin-top:12px}
+    .avatar{
+      width:40px;height:40px;border-radius:50%;
+      background:linear-gradient(135deg, var(--brand), var(--brand-700));
+      display:grid;place-items:center;color:#fff;font-weight:800
+    }
+
+    /* Contact */
+    form{
+      display:grid; gap:12px;
+      background:#fff; border:1px solid #e9eef6; border-radius:16px; padding:18px;
+    }
+    label{font-weight:700}
+    input, textarea, select{
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid #dbe6f5; background:#fff; color:var(--ink);
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    input:focus, textarea:focus, select:focus{outline:none; border-color:var(--brand); box-shadow:var(--ring)}
+    textarea{min-height:110px; resize:vertical}
+    .hint{color:var(--muted); font-size:14px}
+
+    /* Footer */
+    footer{padding:28px 0; color:#fff; background:var(--brand); margin-top:24px}
+    footer .foot{
+      display:grid; grid-template-columns: 1.2fr 1fr 1fr; gap:16px; align-items:start
+    }
+    footer a{color:#fff}
+    .subtle{opacity:.85}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-inner{grid-template-columns:1fr; padding-top:40px}
+      .grid.cols-3{grid-template-columns:1fr 1fr}
+      .grid.cols-4{grid-template-columns:1fr 1fr}
+      .partners{grid-template-columns:repeat(3,1fr)}
+    }
+    @media (max-width: 640px){
+      .menu{display:none}
+      .menu.open{display:flex; flex-direction:column; align-items:flex-start; padding:8px 0}
+      .menu-toggle{display:inline-grid; place-items:center}
+      .grid.cols-3,.grid.cols-4{grid-template-columns:1fr}
+      .partners{grid-template-columns:repeat(2,1fr)}
+    }
+    /* Focus-visible polyfill hint */
+    :where(button,a,input,textarea,select):focus{outline:none}
+    :where(button,a,input,textarea,select):focus-visible{outline:none; box-shadow:var(--ring)}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="Главная навигация">
+      <a href="#" class="brand" aria-current="page">
+        <span class="brand-logo" aria-hidden="true">
+          <img src="img/5814575207371884702.jpg" class="brand-logo">
+        </span>
+        <span>CityFoodTrade</span>
+      </a>
+
+      <nav class="menu" id="menu">
+        <a href="#services">Услуги</a>
+        <a href="#products">Продукты</a>
+        <a href="#logistics">Логистика</a>
+        <a href="#contacts">Контакты</a>
+        <a href="#about">О компании</a>
+      </nav>
+
+      <a class="cta" href="#contacts">Получить прайс</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Меню">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Дистрибьютер молочной продукции для ритейла и HoReCa</h1>
+        <p>Поставляем молоко, йогурты, сыры и масло от проверенных производителей с поддержанием холодовой цепи и точными сроками поставок.</p>
+        <div class="badges" aria-label="Ключевые преимущества">
+          <span class="badge">⛟ Доставка 24–48 ч</span>
+          <span class="badge">❄️ Холодовая цепь 2–6°C</span>
+          <span class="badge">📦 SKU под ваш спрос</span>
+        </div>
+        <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap">
+          <a class="cta" href="#contacts">Запросить коммерческое</a>
+          <a class="cta" href="#products" style="background:#fff;color:var(--brand); border-color:#dbe6f5">Каталог</a>
+        </div>
+      </div>
+      <div class="illustration" aria-hidden="true">
+        <!-- Простая иллюстрация без изображений -->
+        <svg viewBox="0 0 640 420" role="img" aria-label="Иллюстрация молочной продукции" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#2396f3" stop-opacity=".12"/>
+              <stop offset="1" stop-color="#2396f3" stop-opacity=".28"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="640" height="420" rx="18" fill="url(#g1)"/>
+          <!-- бутылка -->
+          <rect x="110" y="80" width="110" height="230" rx="18" fill="#fff" stroke="#e9eef6"/>
+          <rect x="135" y="55" width="60" height="40" rx="8" fill="#2396f3"/>
+          <circle cx="165" cy="230" r="36" fill="#e7f2fe" stroke="#2396f3" />
+          <!-- пачка молока -->
+          <path d="M290 110 l50 -25 l80 25 v210 h-130z" fill="#fff" stroke="#e9eef6"/>
+          <rect x="290" y="110" width="130" height="30" fill="#2396f3" opacity=".9"/>
+          <circle cx="355" cy="220" r="28" fill="#e7f2fe" stroke="#2396f3"/>
+          <!-- сыр -->
+          <circle cx="510" cy="270" r="70" fill="#fff" stroke="#e9eef6"/>
+          <circle cx="485" cy="260" r="8" fill="#2396f3" opacity=".65"/>
+          <circle cx="525" cy="290" r="10" fill="#2396f3" opacity=".65"/>
+          <circle cx="505" cy="300" r="6" fill="#2396f3" opacity=".65"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section>
+    <div class="container grid cols-4">
+      <div class="card">
+        <div class="kpi"><span style="font-size:28px">650+</span> <small>SKU в наличии</small></div>
+        <p class="hint">Поддерживаем матрицу для ритейла и HoReCa.</p>
+      </div>
+      <div class="card">
+        <div class="kpi"><span style="font-size:28px">98.7%</span> <small>on-time delivery</small></div>
+        <p class="hint">Соблюдаем SLA и график поставок.</p>
+      </div>
+      <div class="card">
+        <div class="kpi"><span style="font-size:28px">2–6°C</span> <small>холодовая цепь</small></div>
+        <p class="hint">Контроль температуры на всем пути.</p>
+      </div>
+      <div class="card">
+        <div class="kpi"><span style="font-size:28px">24–48 ч</span> <small>доставка</small></div>
+        <p class="hint">По городу и области с кросс-докингом.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="strip">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Что мы делаем</h2>
+          <p>Полный цикл дистрибуции молочной продукции.</p>
+        </div>
+        <a class="cta" href="#contacts">Связаться</a>
+      </div>
+
+      <div class="grid cols-3">
+        <article class="card">
+          <div class="icon">🏷️</div>
+          <h3>Оптовые поставки</h3>
+          <p>Формируем ассортимент под сеть/заведения, фиксируем цены и объемы, работаем по договору поставки.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🧊</div>
+          <h3>Холодовая логистика</h3>
+          <p>Собственный и партнёрский рефрижераторный транспорт, температурные трекеры и контроль качества.</p>
+        </article>
+        <article class="card">
+          <div class="icon">📈</div>
+          <h3>Мерчандайзинг и прогноз</h3>
+          <p>Аналитика спроса, рекомендации по матрице, ротация и контроль сроков годности на полке.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Категории продукции</h2>
+          <p>Работаем с ведущими брендами и локальными производителями.</p>
+        </div>
+        <a class="cta" href="#contacts">Запросить каталог</a>
+      </div>
+
+      <div class="grid cols-4">
+        <div class="card">
+          <div class="icon">🥛</div>
+          <h3>Молоко & кефир</h3>
+          <p class="hint">Упаковки: PET, Tetra Pak, стекло. Жирность 1–6%.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🍶</div>
+          <h3>Йогурты & десерты</h3>
+          <p class="hint">Питьевые и густые, порционные стаканы для HoReCa.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🧀</div>
+          <h3>Сыры</h3>
+          <p class="hint">Полутвёрдые, мягкие, моцарелла для пиццы, фермерские.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🧈</div>
+          <h3>Масло & сливки</h3>
+          <p class="hint">ГОСТ, жирность 72.5–82.5%, упаковка 200 г — 5 кг.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logistics -->
+  <section id="logistics" class="strip">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Логистика и покрытие</h2>
+          <p>Доставляем по городу и области, подключаем регионы по запросу.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Складской запас</h3>
+          <p>Система FEFO, оперативные отгрузки со склада класса A с поддержанием 2–6°C.</p>
+        </div>
+        <div class="card">
+          <h3>Маршруты</h3>
+          <p>Оптимизация рейсов, слоты доставки по вашим окнам, SMS-уведомления.</p>
+        </div>
+        <div class="card">
+          <h3>Документооборот</h3>
+          <p>ЭДО, закрывающие документы вовремя, отслеживание партий и сертификация.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section aria-labelledby="partners-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="partners-title">Партнёры и бренды</h2>
+          <p>Мы гордимся долгосрочным сотрудничеством.</p>
+        </div>
+      </div>
+      <div class="partners" role="list">
+        <div class="partner" role="listitem">Бренд A</div>
+        <div class="partner" role="listitem">Бренд B</div>
+        <div class="partner" role="listitem">Бренд C</div>
+        <div class="partner" role="listitem">Бренд D</div>
+        <div class="partner" role="listitem">Бренд E</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="strip" aria-labelledby="testimonials-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="testimonials-title">Отзывы клиентов</h2>
+          <p>Надёжность подтверждена практикой.</p>
+        </div>
+      </div>
+      <div class="grid cols-3">
+        <div class="card">
+          <p class="quote">«Сроки поставок стабильные, качество отличное. В сезон пиков справились без сбоев»</p>
+          <div class="author">
+            <div class="avatar">R</div>
+            <div>
+              <strong>Retail Net</strong>
+              <div class="hint">региональная сеть</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <p class="quote">«Йогурт в порциях — идеален для завтраков. Документы и отчётность всегда вовремя»</p>
+          <div class="author">
+            <div class="avatar">H</div>
+            <div>
+              <strong>Hotel City</strong>
+              <div class="hint">HoReCa</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <p class="quote">«Помогли выстроить ассортимент и снизить списания»</p>
+          <div class="author">
+            <div class="avatar">C</div>
+            <div>
+              <strong>Café &amp; Co</strong>
+              <div class="hint">кафейни</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contacts">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Свяжитесь с нами</h2>
+          <p>Получите прайс-лист или обсудите условия поставки.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <form id="contactForm" class="card" aria-label="Форма обратной связи">
+          <div>
+            <label for="name">Имя</label>
+            <input id="name" name="name" placeholder="Ваше имя" required>
+          </div>
+          <div>
+            <label for="company">Компания</label>
+            <input id="company" name="company" placeholder="Название компании" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" inputmode="email" placeholder="you@company.com" required>
+          </div>
+          <div>
+            <label for="volume">Планируемый объём</label>
+            <select id="volume" name="volume">
+              <option>до 100 кг/нед</option>
+              <option>100–500 кг/нед</option>
+              <option>0.5–2 т/нед</option>
+              <option>2+ т/нед</option>
+            </select>
+          </div>
+          <div>
+            <label for="message">Сообщение</label>
+            <textarea id="message" name="message" placeholder="Кратко опишите потребности и город"></textarea>
+          </div>
+          <button class="cta" type="submit">Отправить запрос</button>
+          <p class="hint" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="card" style="grid-column: span 2">
+          <h3>Контакты</h3>
+          <p><strong>Офис:</strong> Улица Механическая, 212а</p>
+          <p><strong>Тел.:</strong> <a href="tel:+70000000000">+90 (505) 806 4135</a></p>
+          <p><strong>Email:</strong> <a href="mailto:sales@milkdist.example">sales@milkdist.example</a></p>
+          <p class="hint">Работаем без выходных, 09:00–18:00</p>
+
+          <div style="height:260px; border:1px solid #e9eef6; border-radius:12px; overflow:hidden; margin-top:12px; background:#e7f2fe">
+            <!-- Заглушка под карту -->
+            <div style="display:grid;place-items:center;height:100%; color:var(--brand-700); font-weight:800">Карта поставки (вставьте iframe карты)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="strip">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>О компании</h2>
+          <p>12 лет на рынке дистрибуции молочной продукции.</p>
+        </div>
+      </div>
+      <div class="grid cols-3">
+        <div class="card"><h3>Миссия</h3><p>Доставлять качественные молочные продукты вовремя и по честной цене.</p></div>
+        <div class="card"><h3>Стандарты</h3><p>HACCP, ISO 22000, контроль поставщиков и регулярные аудиты.</p></div>
+        <div class="card"><h3>Команда</h3><p>Отдел снабжения, логистика, мерчандайзинг и поддержка 24/7.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="color:#fff"><span class="brand-logo">
+          <img src="img/5814575207371884702.jpg" class="brand-logo">
+        </span><span>CityFoodTrade</span></div>
+        <p class="subtle">© <span id="year"></span> ТОО «CityFoodTrade». Все права защищены.</p>
+      </div>
+      <div>
+        <strong>Разделы</strong>
+        <div class="subtle" style="margin-top:8px; display:grid; gap:6px">
+          <a href="#services">Услуги</a>
+          <a href="#products">Продукты</a>
+          <a href="#logistics">Логистика</a>
+          <a href="#contacts">Контакты</a>
+        </div>
+      </div>
+      <div>
+        <strong>Документы</strong>
+        <div class="subtle" style="margin-top:8px; display:grid; gap:6px">
+          <a href="#">Политика качества</a>
+          <a href="#">Условия поставки</a>
+          <a href="#">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+
+  // телефон, на который ваш сервер будет отправлять сообщение через Cloud API
+  const MANAGER_PHONE = '905058064135';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    status.textContent = 'Отправляю…';
+
+    try {
+      const res = await fetch('/send-whatsapp', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: data.name,
+          company: data.company,
+          email: data.email,
+          volume: data.volume,
+          message: data.message,
+          to_phone: 905058064135
+        })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      status.textContent = 'Заявка отправлена в WhatsApp менеджеру ✅';
+      form.reset();
+    } catch (err) {
+      status.textContent = 'Ошибка отправки. Попробуйте ещё раз или свяжитесь по телефону.';
+      console.error(err);
+    }
+  });
+</script>
+
+</body>
+</html>
