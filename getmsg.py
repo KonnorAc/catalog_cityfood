@@ -5,7 +5,7 @@ app = FastAPI()
 
 WHATSAPP_TOKEN = os.getenv("EAAPKqRtzHkkBPEhmivNVqbSWqVZCGsuswlTtTcYLZAYGQc9WdiWbJhCZAgJUe7DZA8ehCAQYNLQGnlpPz3txgR8ZBuWghgaBSZBzUMQPeryh1QiOazY1uORUq576XXcpOR398sn8QrEKQo7w8KZCSj16fpmQTZAXVD21ls8PbOZCQMGQ0Vqu0OZBAjrqIYsgIJvB4JoYKBPTjdTeM1snWjQKmK54pZCv0yMWTSFuF7v0JLb25msZAQZDZD")        # токен из Meta
 PHONE_NUMBER_ID = os.getenv("812730505246582")      # id номера в WhatsApp Cloud API
-GRAPH_URL = f"https://graph.facebook.com/v20.0/{812730505246582}/messages"
+GRAPH_URL = f"https://graph.facebook.com/v20.0/{PHONE_NUMBER_ID}/messages"
 
 class Lead(BaseModel):
     name: str
