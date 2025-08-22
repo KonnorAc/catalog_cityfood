@@ -100,6 +100,8 @@
       transition:.2s transform ease, .2s box-shadow ease;
     }
     .card:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(35,150,243,.10)}
+    .products_btn{color: black;}
+    .products_btn:hover{color: #2396f3;}
     .icon{
       width:42px; height:42px; border-radius:10px; background: #e7f2fe; color:var(--brand);
       display:grid; place-items:center; font-weight:900; margin-bottom:10px
@@ -297,31 +299,40 @@
       <div class="section-head">
         <div>
           <h2>Категории продукции</h2>
-          <p>Работаем с ведущими брендами и локальными производителями.</p>
+          <p>Работаем с ведущими брендами и иностранными производителями.</p>
         </div>
         <a class="cta" href="#contacts">Запросить каталог</a>
       </div>
 
       <div class="grid cols-4">
         <div class="card">
+          <a href="" class="products_btn">
           <div class="icon">🥛</div>
+          
           <h3>Молоко & кефир</h3>
           <p class="hint">Упаковки: PET, Tetra Pak, стекло. Жирность 1–6%.</p>
+          </a>
         </div>
         <div class="card">
+          <a class="products_btn">
           <div class="icon">🍶</div>
           <h3>Йогурты & десерты</h3>
           <p class="hint">Питьевые и густые, порционные стаканы для HoReCa.</p>
+          </a>
         </div>
         <div class="card">
+          <a class="products_btn">
           <div class="icon">🧀</div>
           <h3>Сыры</h3>
           <p class="hint">Полутвёрдые, мягкие, моцарелла для пиццы, фермерские.</p>
+          </a>
         </div>
         <div class="card">
+          <a class="products_btn">
           <div class="icon">🧈</div>
           <h3>Масло & сливки</h3>
           <p class="hint">ГОСТ, жирность 72.5–82.5%, упаковка 200 г — 5 кг.</p>
+          </a>
         </div>
       </div>
     </div>
@@ -442,6 +453,10 @@
             <input id="email" name="email" type="email" inputmode="email" placeholder="you@company.com" required>
           </div>
           <div>
+            <label for="phone">Номер телефона</label>
+            <input id="phone" name="phone" placeholder="Номер телефона" required>
+          </div>
+          <div>
             <label for="volume">Планируемый объём</label>
             <select id="volume" name="volume">
               <option>до 100 кг/нед</option>
@@ -461,13 +476,13 @@
         <div class="card" style="grid-column: span 2">
           <h3>Контакты</h3>
           <p><strong>Офис:</strong> Улица Механическая, 212а</p>
-          <p><strong>Тел.:</strong> <a href="tel:+70000000000">+90 (505) 806 4135</a></p>
-          <p><strong>Email:</strong> <a href="mailto:sales@milkdist.example">sales@milkdist.example</a></p>
+          <p><strong>Тел.:</strong> <a href="https://wa.me/message/UBVOU24HWYIGG1" target="_blank">+7 (707) 260 0900</a></p>
+          <p><strong>Email:</strong> <a href="cityfood2016@gmail.com">cityfood2016@gmail.com</a></p>
           <p class="hint">Работаем без выходных, 09:00–18:00</p>
 
-          <div style="height:260px; border:1px solid #e9eef6; border-radius:12px; overflow:hidden; margin-top:12px; background:#e7f2fe">
-            <!-- Заглушка под карту -->
-            <div style="display:grid;place-items:center;height:100%; color:var(--brand-700); font-weight:800">Карта поставки (вставьте iframe карты)</div>
+          <div style="height:380px; border:1px solid #e9eef6; border-radius:12px; overflow:hidden; margin-top:12px; background:#e7f2fe">
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A36bae03bab11e1a912535484ff62aa3dd638fd4e56c86f7035b11f44a28c9c18&amp;source=constructor" width="705" height="370" frameborder="0"></iframe>
+            <div style="display:grid; place-items:center; height:100%; color:var(--brand-700); font-weight:800">Нет подключения к интернету</div>
           </div>
         </div>
       </div>
@@ -520,12 +535,48 @@
     </div>
   </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+
 <script>
+  const token = "8178976162:AAFR-9Lw4L2a7ti4N4a4lqBLkRSINfKyuMk";
+  const chat_id = "6631927894";
+  const URL_API = `https://api.telegram.org/bot${token}/sendMessage`;
+
   const form = document.getElementById('contactForm');
   const status = document.getElementById('formStatus');
 
-  // телефон, на который ваш сервер будет отправлять сообщение через Cloud API
-  const MANAGER_PHONE = '905058064135';
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.textContent = 'Отправляю…';
+
+    let messages = `<b>Заявка отправлена</b>\n`;
+    messages += `<b>Имя: </b> ${ this.name.value }\n`
+    messages += `<b>Компания: </b> ${ this.company.value }\n`
+    messages += `<b>Почта: </b> ${ this.email.value }\n`
+    messages += `<b>Номер: </b> ${ this.phone.value }\n`
+    messages += `<b>Объем: </b> ${ this.volume.value }\n`
+    messages += `<b>Сообщение: </b> ${ this.message.value }\n`
+    
+    axios.post(URL_API, {
+      chat_id: chat_id,
+      parse_mode: 'html',
+      text: messages,
+    })
+        .then(() => {
+      status.textContent = '✅ Заявка успешно отправлена в Telegram!';
+      status.style.color = 'green';
+      form.reset();
+    })
+    .catch(() => {
+      status.textContent = '❌ Ошибка при отправке. Попробуйте ещё раз.';
+      status.style.color = 'red';
+    });
+  });
+
+</script>
+<!--<script>
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -534,27 +585,28 @@
     status.textContent = 'Отправляю…';
 
     try {
-      const res = await fetch('/send-whatsapp', {
+      const res = await fetch('/lead', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           name: data.name,
           company: data.company,
           email: data.email,
+          phone: data.phone, // "9055..."
           volume: data.volume,
-          message: data.message,
-          to_phone: 905058064135
+          message: data.message
         })
       });
       if (!res.ok) throw new Error(await res.text());
-      status.textContent = 'Заявка отправлена в WhatsApp менеджеру ✅';
+      status.textContent = 'Заявка отправлена в Telegram ✅';
       form.reset();
     } catch (err) {
-      status.textContent = 'Ошибка отправки. Попробуйте ещё раз или свяжитесь по телефону.';
       console.error(err);
+      status.textContent = 'Ошибка отправки. Попробуйте ещё раз или свяжитесь по телефону.';
+
     }
   });
 </script>
-
+-->
 </body>
 </html>
